@@ -94,7 +94,7 @@ class _NoteModifyState extends State<NoteModify> {
                           const title = 'Done';
                           final text = result.error!
                               ? result.errorMessage
-                              : 'Your note is updated';
+                              : 'Your note was updated';
 
                           showDialog(
                             context: context,
