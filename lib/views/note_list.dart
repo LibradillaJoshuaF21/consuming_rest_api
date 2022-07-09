@@ -76,7 +76,6 @@ class _NoteListState extends State<NoteList> {
                     final result = await showDialog(
                         context: context,
                         builder: (context) => const NoteDelete());
-                    print(result);
                     return result;
                   },
                   background: Container(
@@ -95,9 +94,13 @@ class _NoteListState extends State<NoteList> {
                     subtitle: Text(
                         'Last edited on ${formatDateTime(_apiResponse!.data![index].lastEditDateTime ?? _apiResponse!.data![index].createDateTime!)}'),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => NoteModify(
-                              noteID: _apiResponse!.data![index].noteID!)));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                              builder: (context) => NoteModify(
+                                  noteID: _apiResponse!.data![index].noteID!)))
+                          .then((data) {
+                        _fetchNotes();
+                      });
                     },
                   ),
                 );
