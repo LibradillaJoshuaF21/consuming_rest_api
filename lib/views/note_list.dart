@@ -48,8 +48,9 @@ class NoteList extends StatelessWidget {
             subtitle: Text(
                 'Last edited on ${formatDateTime(notes[index].lastEditDateTime!)}'),
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => NoteModify()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      NoteModify(noteID: notes[index].noteID)));
             },
           );
         },
