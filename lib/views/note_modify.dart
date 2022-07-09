@@ -1,4 +1,5 @@
 import 'package:consuming_rest_api/models/note.dart';
+import 'package:consuming_rest_api/models/note_insert.dart';
 import 'package:consuming_rest_api/services/notes_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -73,8 +74,49 @@ class _NoteModifyState extends State<NoteModify> {
                     height: 35,
                     child: ElevatedButton(
                       child: const Text('Submit'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        if (isEditing) {
+                          //PUT HERE
+                        } else {
+                          setState(() {
+                            _isLoading = true;
+                          });
+
+                          final note = NoteInsert(
+                            noteTitle: _titleController.text,
+                            noteContent: _contentController.text,
+                          );
+                          final result = await notesService.createNote(note);
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+
+                          const title = 'Done';
+                          final text = result.error!
+                              ? result.errorMessage
+                              : 'Your note was created';
+
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: const Text(title),
+                              content: Text(text!),
+                              actions: [
+                                ElevatedButton(
+                                  child: const Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            ),
+                          ).then((data) {
+                            if (result.data!) {
+                              Navigator.of(context).pop();
+                            }
+                          });
+                        }
                       },
                     ),
                   )
