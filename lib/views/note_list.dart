@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class NoteList extends StatefulWidget {
+  const NoteList({Key? key}) : super(key: key);
+
   @override
   State<NoteList> createState() => _NoteListState();
 }
@@ -46,8 +48,7 @@ class _NoteListState extends State<NoteList> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
-                .push(
-                    MaterialPageRoute(builder: (context) => const NoteModify()))
+                .push(MaterialPageRoute(builder: (_) => const NoteModify()))
                 .then((_) {
               _fetchNotes();
             });
@@ -65,7 +66,7 @@ class _NoteListState extends State<NoteList> {
             }
 
             return ListView.separated(
-              separatorBuilder: (context, index) =>
+              separatorBuilder: (_, __) =>
                   const Divider(height: 1, color: Colors.green),
               itemBuilder: (context, index) {
                 return Dismissible(
@@ -74,13 +75,12 @@ class _NoteListState extends State<NoteList> {
                   onDismissed: (direction) {},
                   confirmDismiss: (direction) async {
                     final result = await showDialog(
-                        context: context,
-                        builder: (context) => const NoteDelete());
+                        context: context, builder: (_) => const NoteDelete());
 
-                    var message;
                     if (result) {
                       final deleteResult = await service
                           .deleteNote(_apiResponse!.data![index].noteID!);
+                      var message = '';
 
                       if (deleteResult.data == true) {
                         message = 'The note was deleted successfully';
@@ -117,7 +117,7 @@ class _NoteListState extends State<NoteList> {
                   ),
                   child: ListTile(
                     title: Text(
-                      _apiResponse!.data![index].noteTile!,
+                      _apiResponse!.data![index].noteTitle!,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                     subtitle: Text(
@@ -125,7 +125,7 @@ class _NoteListState extends State<NoteList> {
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(
-                              builder: (context) => NoteModify(
+                              builder: (_) => NoteModify(
                                   noteID: _apiResponse!.data![index].noteID!)))
                           .then((data) {
                         _fetchNotes();
