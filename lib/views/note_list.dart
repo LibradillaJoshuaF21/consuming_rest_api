@@ -11,7 +11,20 @@ class NoteList extends StatelessWidget {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
-      body: Container(),
+      body: ListView.separated(
+        separatorBuilder: (context, index) =>
+            const Divider(height: 1, color: Colors.green),
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              'Hello',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            subtitle: const Text('Lest edited on 21/2/2021'),
+          );
+        },
+        itemCount: 30,
+      ),
     );
   }
 }
