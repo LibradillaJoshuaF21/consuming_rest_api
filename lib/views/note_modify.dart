@@ -21,8 +21,8 @@ class _NoteModifyState extends State<NoteModify> {
   String? errorMessage;
   Note? note;
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _contentController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
 
   bool _isLoading = false;
 
@@ -41,7 +41,7 @@ class _NoteModifyState extends State<NoteModify> {
           errorMessage = response.errorMessage ?? 'An error occured';
         }
         note = response.data;
-        _titleController.text = note!.noteTile!;
+        _titleController.text = note!.noteTitle!;
         _contentController.text = note!.noteContent!;
       });
     }
