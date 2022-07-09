@@ -30,16 +30,7 @@ class NotesSerivice {
         (data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
-        final note = Note(
-          noteID: jsonData['noteID'],
-          noteTile: jsonData['noteTitle'],
-          noteContent: jsonData['noteContent'],
-          createDateTime: DateTime.parse(jsonData['createDateTime']),
-          lastEditDateTime: jsonData['latestEditDateTime'] != null
-              ? DateTime.parse(jsonData['latestEditDateTime'])
-              : null,
-        );
-        return APIResponse<Note>(data: note);
+        return APIResponse<Note>(data: Note.fromJson(jsonData));
       }
       return APIResponse<Note>(error: true, errorMessage: 'An error occured');
     }).catchError(
